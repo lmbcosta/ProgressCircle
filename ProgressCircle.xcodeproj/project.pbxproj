@@ -13,6 +13,8 @@
 		493689BE20325FB200CB85F7 /* ProgressCircle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 493689BC20325FB200CB85F7 /* ProgressCircle.xcdatamodeld */; };
 		493689C020325FB200CB85F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 493689BF20325FB200CB85F7 /* Assets.xcassets */; };
 		493689C320325FB200CB85F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 493689C120325FB200CB85F7 /* LaunchScreen.storyboard */; };
+		493689CE2032604D00CB85F7 /* ProgressCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493689CD2032604D00CB85F7 /* ProgressCircleView.swift */; };
+		49D5A671203261130072AD71 /* CountingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D5A670203261130072AD71 /* CountingLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		493689BF20325FB200CB85F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		493689C220325FB200CB85F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		493689C420325FB200CB85F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		493689CD2032604D00CB85F7 /* ProgressCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleView.swift; sourceTree = "<group>"; };
+		49D5A670203261130072AD71 /* CountingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountingLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		493689B420325FB200CB85F7 /* ProgressCircle */ = {
 			isa = PBXGroup;
 			children = (
+				493689CC20325FE400CB85F7 /* Views */,
 				493689B520325FB200CB85F7 /* AppDelegate.swift */,
 				493689B720325FB200CB85F7 /* ViewController.swift */,
 				493689B920325FB200CB85F7 /* Main.storyboard */,
@@ -65,6 +70,15 @@
 				493689BC20325FB200CB85F7 /* ProgressCircle.xcdatamodeld */,
 			);
 			path = ProgressCircle;
+			sourceTree = "<group>";
+		};
+		493689CC20325FE400CB85F7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				493689CD2032604D00CB85F7 /* ProgressCircleView.swift */,
+				49D5A670203261130072AD71 /* CountingLabel.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,7 +153,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49D5A671203261130072AD71 /* CountingLabel.swift in Sources */,
 				493689B820325FB200CB85F7 /* ViewController.swift in Sources */,
+				493689CE2032604D00CB85F7 /* ProgressCircleView.swift in Sources */,
 				493689B620325FB200CB85F7 /* AppDelegate.swift in Sources */,
 				493689BE20325FB200CB85F7 /* ProgressCircle.xcdatamodeld in Sources */,
 			);
