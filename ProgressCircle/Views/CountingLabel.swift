@@ -86,7 +86,7 @@ class CountingLabel: UILabel {
     }
     
     func updateText (value: Float) {
-        let text = endingText ?? ""
+        let text = endingText ?? "%"
         switch counterType! {
             
         case .int:

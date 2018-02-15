@@ -12,7 +12,15 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let progressBar = ProgressCircleView(frame: self.view.bounds)
+        self.view.addSubview(progressBar)
+        
+        
+        progressBar.animate(duration: 1.5)
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {

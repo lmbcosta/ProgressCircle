@@ -8,19 +8,20 @@
 
 import UIKit
 
+@IBDesignable
 class ProgressCircleView: UIView {
     
     typealias AnimationTypeLabel = CountingLabel.CounterAnimationType
     typealias CounterTypeLabel = CountingLabel.CounterType
     
-
+    
     fileprivate var _startAngle: CGFloat = 0
-    fileprivate var _endAngle: CGFloat = 2 * CGFloat.pi
-    fileprivate var _radius: CGFloat = 20
+    fileprivate var _endAngle: CGFloat = 270
+    fileprivate var _radius: CGFloat!
     fileprivate var _clockwise: Bool = true
     fileprivate var _strokeColor: UIColor = UIColor.green
     fileprivate var _backgroundStrokeColor: UIColor = UIColor.lightGray
-    fileprivate var _strokeLineWidth: CGFloat = 18
+    fileprivate var _strokeLineWidth: CGFloat = 20
     
     fileprivate lazy var _label: CountingLabel = setupLabel()
     fileprivate var _labelFrame: CGRect = CGRect(x: 0, y: 0, width: 120, height: 48)
@@ -31,63 +32,77 @@ class ProgressCircleView: UIView {
     // Constructors
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setupView()
     }
     
     // Open Properties
+    
+    @IBInspectable
     open var startAngleInDegrees: CGFloat {
         set { _startAngle = newValue }
         get { return _startAngle }
     }
     
+    @IBInspectable
     open var endAngleInDegrees: CGFloat {
         set { _endAngle = newValue }
         get { return _endAngle }
     }
     
+    @IBInspectable
     open var clockwise: Bool {
         set { _clockwise = clockwise }
         get { return _clockwise }
     }
     
+    @IBInspectable
     open var radius: CGFloat {
         set { _radius = newValue }
         get { return _radius }
     }
     
+    @IBInspectable
     open var strokeColor: UIColor {
         set { _strokeColor = newValue }
         get { return _strokeColor }
     }
     
+    @IBInspectable
     open var strokeBackgroundColor: UIColor {
         set { _backgroundStrokeColor = newValue }
         get { return _backgroundStrokeColor }
     }
     
+    @IBInspectable
     open var textLabel: String? {
         set { _label.text = newValue }
         get { return _label.text }
     }
     
+    @IBInspectable
     open var fontLabel: UIFont {
         set { _label.font = newValue }
         get { return _label.font }
     }
     
+    @IBInspectable
     open var textAlignmentLabel: NSTextAlignment {
         set { _label.textAlignment = newValue  }
         get { return _label.textAlignment }
     }
     
+    @IBInspectable
     open var textColorLabel: UIColor {
         set { _label.textColor = newValue }
         get { return _label.textColor }
     }
     
+    @IBInspectable
     open var lineWidthStroke: CGFloat {
         set { _strokeLineWidth = newValue }
         get { return _strokeLineWidth }
@@ -106,65 +121,68 @@ class ProgressCircleView: UIView {
 
 // MARK: - Private Functions
 extension ProgressCircleView {
+    
+    fileprivate func setupView() {
+        self._radius = frame.width/2 - CGFloat(32)
+        
+    }
+    
     fileprivate func setupLabel() -> CountingLabel {
         let label = CountingLabel()
-        label.font = UIFont.systemFont(ofSize: 40, weight: .medium)
+        label.frame = CGRect(x: 0, y: 0, width: 240, height: 100)
+        label.center = self.center
+        label.font = UIFont.systemFont(ofSize: 80, weight: .medium)
         label.textAlignment = .center
         label.textColor = .green
         label.text = "0%"
-        
+        self.addSubview(label)
         return label
     }
 }
 
 // MARK: - Private Functions
 extension ProgressCircleView {
-    func animate(duration: CFTimeInterval, withDelay: CFTimeInterval) {
+    func animate(duration: CFTimeInterval) {
         
-        // Angles
-        let startAngleRadians = startAngleInDegrees * CGFloat.pi * 2 / 360
-        let endAngleRadians = endAngleInDegrees * CGFloat.pi * 2 / 360
-        let startAngle = clockwise ? startAngleRadians : -1 * startAngleRadians
-        let endAngle = clockwise ? endAngleRadians : -1 * endAngleRadians
+        // BackEndPath
+        let backgroundPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        let backgroundLayer = CAShapeLayer()
+        backgroundLayer.path = backgroundPath.cgPath
+        backgroundLayer.strokeColor = strokeBackgroundColor.cgColor
+        backgroundLayer.lineWidth = lineWidthStroke
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        self.layer.addSublayer(backgroundLayer)
+        
+        let startAngleRadians = (startAngleInDegrees - 90) * CGFloat.pi * 2 / 360
+        let endAngleRadians = (endAngleInDegrees - 90) * CGFloat.pi * 2 / 360 * 1
         
         // Circular Path
-        let circularPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: clockwise)
-        
+        let circularPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngleRadians, endAngle: endAngleRadians, clockwise: true)
+
         // Contour Layer
         let contourLayer = CAShapeLayer()
         contourLayer.path = circularPath.cgPath
-        contourLayer.strokeColor = strokeBackgroundColor.cgColor
+        contourLayer.strokeColor = strokeColor.cgColor
         contourLayer.lineWidth = lineWidthStroke
         contourLayer.fillColor = UIColor.clear.cgColor
+        contourLayer.strokeEnd = 0
         self.layer.addSublayer(contourLayer)
         
-        // Stroke Path
-        let strokePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: clockwise)
-        
-        // Stroke Layer
-        let strokeLayer = CAShapeLayer()
-        strokeLayer.path = strokePath.cgPath
-        strokeLayer.strokeEnd = 0
-        strokePath.lineWidth = lineWidthStroke
-        strokeLayer.strokeColor = strokeColor.cgColor
-        self.layer.addSublayer(strokeLayer)
         
         // Animations
-        DispatchQueue.main.asyncAfter(deadline: .now() + withDelay) { [weak self] in
-            // Stroke animation
-            let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
-            strokeAnimation.toValue = 1
-            strokeAnimation.duration = duration
-            strokeAnimation.fillMode = kCAFillModeForwards
-            strokeAnimation.isRemovedOnCompletion = false
-            strokeLayer.lineCap = kCALineCapRound
-            strokeLayer.add(strokeAnimation, forKey: "strokeAnimation")
-            
-            let startPercentage = (self?.startAngleInDegrees)! * 100 / 360
-            let endPercentage = (self?.endAngleInDegrees)! * 100 / 360
-            
-            self?._label.count(fromValue: Float(startPercentage), to: Float(endPercentage), withDuration: duration, animationType: .easeOut, counterType: CountingLabel.CounterType.int)
-        }
+        let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        strokeAnimation.toValue = 1
+        strokeAnimation.duration = duration
+        strokeAnimation.fillMode = kCAFillModeForwards
+        strokeAnimation.isRemovedOnCompletion = false
+        contourLayer.lineCap = kCALineCapRound
+        contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
+        
+        
+        let startPercentage = Float(0) * 100 / 360
+        let endPercentage = Float(270) * 100 / 360
+        
+        self._label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
     }
-
+    
 }
