@@ -144,10 +144,8 @@ extension ProgressCircleView {
         backgroundLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(backgroundLayer)
         
-        //let startAngleRadians = (startAngleInDegrees - 90) * CGFloat.pi * 2 / 360
         let startAngleRadians = startPercentage * 2 * CGFloat.pi / 100 - (CGFloat.pi / 2)
         
-        //let endAngleRadians = (endAngleInDegrees - 90) * CGFloat.pi * 2 / 360 * 1
         let endAngleRadians = endPercentage * 2 * CGFloat.pi / 100 - (CGFloat.pi / 2)
         
         // Circular Path
