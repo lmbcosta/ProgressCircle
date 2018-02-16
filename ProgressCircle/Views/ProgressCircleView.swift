@@ -144,7 +144,8 @@ extension ProgressCircleView {
 
 // MARK: - Private Functions
 extension ProgressCircleView {
-    func animate(duration: CFTimeInterval) {
+    func animate(duration: CFTimeInterval, animated: Bool) {
+        
         
         // BackEndPath
         let backgroundPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
@@ -160,31 +161,34 @@ extension ProgressCircleView {
         
         // Circular Path
         let circularPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngleRadians, endAngle: endAngleRadians, clockwise: true)
-
+        
         // Contour Layer
         let contourLayer = CAShapeLayer()
         contourLayer.path = circularPath.cgPath
         contourLayer.strokeColor = strokeColor.cgColor
         contourLayer.lineWidth = lineWidthStroke
         contourLayer.fillColor = UIColor.clear.cgColor
-        contourLayer.strokeEnd = 0
+        contourLayer.strokeEnd = animated ? 0 : 1
         self.layer.addSublayer(contourLayer)
         
-        
-        // Animations
-        let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
-        strokeAnimation.toValue = 1
-        strokeAnimation.duration = duration
-        strokeAnimation.fillMode = kCAFillModeForwards
-        strokeAnimation.isRemovedOnCompletion = false
-        contourLayer.lineCap = kCALineCapRound
-        contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
-        
-        // TODO: Percentage from radians
-        let startPercentage = Float(startAngleInDegrees) * 100 / 360
-        let endPercentage = Float(endAngleInDegrees) * 100 / 360
-        
-        _label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
+        if animated {
+            // Animations
+            let strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
+            strokeAnimation.toValue = 1
+            strokeAnimation.duration = duration
+            strokeAnimation.fillMode = kCAFillModeForwards
+            strokeAnimation.isRemovedOnCompletion = false
+            contourLayer.lineCap = kCALineCapRound
+            contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
+            
+            // TODO: Percentage from radians
+            let startPercentage = Float(startAngleInDegrees) * 100 / 360
+            let endPercentage = Float(endAngleInDegrees) * 100 / 360
+            
+            _label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
+        } else {
+            _label.text = "\(Int(endAngleInDegrees) * 100 / 360)%"
+        }
     }
     
 }

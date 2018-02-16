@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         
         self.view.addSubview(progressBar)
         
-        progressBar.animate(duration: 1.5)
+        progressBar.animate(duration: 1, animated: true)
     }
 }
 
