@@ -19,12 +19,12 @@ class ProgressCircleView: UIView {
     fileprivate var _endAngle: CGFloat = 270
     fileprivate var _radius: CGFloat!
     fileprivate var _clockwise: Bool = true
+    fileprivate var _label: CountingLabel = CountingLabel()
     fileprivate var _strokeColor: UIColor = UIColor.green
     fileprivate var _backgroundStrokeColor: UIColor = UIColor.lightGray
     fileprivate var _strokeLineWidth: CGFloat = 20
-    
-    fileprivate lazy var _label: CountingLabel = setupLabel()
-    fileprivate var _labelFrame: CGRect = CGRect(x: 0, y: 0, width: 120, height: 48)
+    fileprivate var _labelFrame: CGRect = CGRect(x: 0, y: 0, width: 200, height: 100)
+    fileprivate var _labelFont: UIFont = UIFont.systemFont(ofSize: 80, weight: .medium)
     
     fileprivate var _animationTypeLabel: AnimationTypeLabel = .linear
     fileprivate var _counterTypeLabel: CounterTypeLabel = .int
@@ -42,6 +42,16 @@ class ProgressCircleView: UIView {
     
     // Open Properties
     
+    open var fontLabel: UIFont {
+        set { self._labelFont = newValue }
+        get { return _labelFont }
+    }
+
+    open var frameLabel: CGRect {
+        set { _labelFrame = newValue }
+        get { return _labelFrame }
+    }
+    
     @IBInspectable
     open var startAngleInDegrees: CGFloat {
         set { _startAngle = newValue }
@@ -53,12 +63,13 @@ class ProgressCircleView: UIView {
         set { _endAngle = newValue }
         get { return _endAngle }
     }
-    
-    @IBInspectable
-    open var clockwise: Bool {
-        set { _clockwise = clockwise }
-        get { return _clockwise }
-    }
+
+// Only available clockwise for now
+//    @IBInspectable
+//    open var clockwise: Bool {
+//        set { _clockwise = clockwise }
+//        get { return _clockwise }
+//    }
     
     @IBInspectable
     open var radius: CGFloat {
@@ -68,7 +79,10 @@ class ProgressCircleView: UIView {
     
     @IBInspectable
     open var strokeColor: UIColor {
-        set { _strokeColor = newValue }
+        set {
+            _label.textColor = newValue
+            _strokeColor = newValue
+        }
         get { return _strokeColor }
     }
     
@@ -83,19 +97,13 @@ class ProgressCircleView: UIView {
         set { _label.text = newValue }
         get { return _label.text }
     }
-    
-    @IBInspectable
-    open var fontLabel: UIFont {
-        set { _label.font = newValue }
-        get { return _label.font }
-    }
-    
+
     @IBInspectable
     open var textAlignmentLabel: NSTextAlignment {
         set { _label.textAlignment = newValue  }
         get { return _label.textAlignment }
     }
-    
+
     @IBInspectable
     open var textColorLabel: UIColor {
         set { _label.textColor = newValue }
@@ -124,19 +132,13 @@ extension ProgressCircleView {
     
     fileprivate func setupView() {
         self._radius = frame.width/2 - CGFloat(32)
-        
-    }
-    
-    fileprivate func setupLabel() -> CountingLabel {
-        let label = CountingLabel()
-        label.frame = CGRect(x: 0, y: 0, width: 240, height: 100)
-        label.center = self.center
-        label.font = UIFont.systemFont(ofSize: 80, weight: .medium)
-        label.textAlignment = .center
-        label.textColor = .green
-        label.text = "0%"
-        self.addSubview(label)
-        return label
+        self._label.textAlignment = .center
+        self._label.textColor = strokeColor
+        self._label.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        self._label.font = UIFont.systemFont(ofSize: 80, weight: .medium)
+        self._label.textColor = strokeColor
+        self._label.center = self.center
+        self.addSubview(_label)
     }
 }
 
@@ -178,11 +180,11 @@ extension ProgressCircleView {
         contourLayer.lineCap = kCALineCapRound
         contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
         
+        // TODO: Percentage from radians
+        let startPercentage = Float(startAngleInDegrees) * 100 / 360
+        let endPercentage = Float(endAngleInDegrees) * 100 / 360
         
-        let startPercentage = Float(0) * 100 / 360
-        let endPercentage = Float(270) * 100 / 360
-        
-        self._label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
+        _label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
     }
     
 }

@@ -14,20 +14,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let progressBar = ProgressCircleView(frame: self.view.bounds)
+        progressBar.strokeColor = .red
+        progressBar.strokeBackgroundColor = .lightGray
+        
+        let labelFrame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        progressBar.frameLabel = labelFrame
+        progressBar.fontLabel = UIFont.systemFont(ofSize: 80, weight: .medium)
+        progressBar.startAngleInDegrees = 45
+        progressBar.endAngleInDegrees = 180
+        
         self.view.addSubview(progressBar)
         
-        
         progressBar.animate(duration: 1.5)
-        
-        
-        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
