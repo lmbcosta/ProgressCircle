@@ -8,11 +8,11 @@
 
 import UIKit
 
+typealias AnimationTypeLabel = CountingLabel.CounterAnimationType
+typealias CounterTypeLabel = CountingLabel.CounterType
+
 @IBDesignable
-class ProgressCircleView: UIView {
-    
-    typealias AnimationTypeLabel = CountingLabel.CounterAnimationType
-    typealias CounterTypeLabel = CountingLabel.CounterType
+public class ProgressCircleView: UIView {
     
     fileprivate var _startPercentage: CGFloat = 0
     fileprivate var _endPercentage: CGFloat = 75
@@ -24,7 +24,6 @@ class ProgressCircleView: UIView {
     fileprivate var _strokeLineWidth: CGFloat = 20
     fileprivate var _labelFrame: CGRect = CGRect(x: 0, y: 0, width: 200, height: 100)
     fileprivate var _labelFont: UIFont = UIFont.systemFont(ofSize: 80, weight: .medium)
-    
     fileprivate var _animationTypeLabel: AnimationTypeLabel = .linear
     fileprivate var _counterTypeLabel: CounterTypeLabel = .int
     
@@ -34,7 +33,7 @@ class ProgressCircleView: UIView {
         setupView()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupView()
     }
@@ -114,16 +113,6 @@ class ProgressCircleView: UIView {
         set { _strokeLineWidth = newValue }
         get { return _strokeLineWidth }
     }
-    
-    open var animationTypeLabel: AnimationTypeLabel {
-        set { self._animationTypeLabel = newValue }
-        get { return _animationTypeLabel }
-    }
-    
-    open var counterTypeLabel: CounterTypeLabel {
-        set { self._counterTypeLabel = newValue }
-        get { return _counterTypeLabel }
-    }
 }
 
 // MARK: - Private Functions
@@ -143,7 +132,7 @@ extension ProgressCircleView {
 
 // MARK: - Private Functions
 extension ProgressCircleView {
-    func animate(duration: CFTimeInterval, animated: Bool) {
+    func animate(duration: CFTimeInterval, animated: Bool, animationType: AnimationTypeLabel?, counter: CounterTypeLabel?) {
         
         
         // BackEndPath
@@ -183,7 +172,10 @@ extension ProgressCircleView {
             contourLayer.lineCap = kCALineCapRound
             contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
             
-            _label.count(fromValue: Float(startPercentage), to: Float(endPercentage) - Float(startPercentage), withDuration: duration, animationType: .linear, counterType: .int)
+            let counter = counter ?? _counterTypeLabel
+            let typeAnimation = animationType ?? _animationTypeLabel
+            
+            _label.count(fromValue: Float(startPercentage), to: Float(endPercentage) - Float(startPercentage), withDuration: duration, animationType: typeAnimation, counterType: counter)
         } else {
             _label.text = "\(Int(endPercentage - startPercentage))%"
         }
