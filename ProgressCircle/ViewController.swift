@@ -17,11 +17,11 @@ class ViewController: UIViewController {
         progressBar.strokeColor = .red
         progressBar.strokeBackgroundColor = .lightGray
         
-        let labelFrame = CGRect(x: 0, y: 0, width: 200, height: 100)
+        let labelFrame = CGRect(x: 0, y: 0, width: 220, height: 100)
         progressBar.frameLabel = labelFrame
         progressBar.fontLabel = UIFont.systemFont(ofSize: 80, weight: .medium)
-        progressBar.startAngleInDegrees = 45
-        progressBar.endAngleInDegrees = 180
+        progressBar.startPercentage = 50
+        progressBar.endPercentage = 90
         
         self.view.addSubview(progressBar)
         

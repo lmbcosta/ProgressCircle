@@ -14,9 +14,8 @@ class ProgressCircleView: UIView {
     typealias AnimationTypeLabel = CountingLabel.CounterAnimationType
     typealias CounterTypeLabel = CountingLabel.CounterType
     
-    
-    fileprivate var _startAngle: CGFloat = 0
-    fileprivate var _endAngle: CGFloat = 270
+    fileprivate var _startPercentage: CGFloat = 0
+    fileprivate var _endPercentage: CGFloat = 75
     fileprivate var _radius: CGFloat!
     fileprivate var _clockwise: Bool = true
     fileprivate var _label: CountingLabel = CountingLabel()
@@ -53,15 +52,15 @@ class ProgressCircleView: UIView {
     }
     
     @IBInspectable
-    open var startAngleInDegrees: CGFloat {
-        set { _startAngle = newValue }
-        get { return _startAngle }
+    open var startPercentage: CGFloat {
+        set { _startPercentage = newValue }
+        get { return _startPercentage }
     }
     
     @IBInspectable
-    open var endAngleInDegrees: CGFloat {
-        set { _endAngle = newValue }
-        get { return _endAngle }
+    open var endPercentage: CGFloat {
+        set { _endPercentage = newValue }
+        get { return _endPercentage }
     }
 
 // Only available clockwise for now
@@ -156,8 +155,11 @@ extension ProgressCircleView {
         backgroundLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(backgroundLayer)
         
-        let startAngleRadians = (startAngleInDegrees - 90) * CGFloat.pi * 2 / 360
-        let endAngleRadians = (endAngleInDegrees - 90) * CGFloat.pi * 2 / 360 * 1
+        //let startAngleRadians = (startAngleInDegrees - 90) * CGFloat.pi * 2 / 360
+        let startAngleRadians = startPercentage * 2 * CGFloat.pi / 100 - (CGFloat.pi / 2)
+        
+        //let endAngleRadians = (endAngleInDegrees - 90) * CGFloat.pi * 2 / 360 * 1
+        let endAngleRadians = endPercentage * 2 * CGFloat.pi / 100 - (CGFloat.pi / 2)
         
         // Circular Path
         let circularPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngleRadians, endAngle: endAngleRadians, clockwise: true)
@@ -181,13 +183,9 @@ extension ProgressCircleView {
             contourLayer.lineCap = kCALineCapRound
             contourLayer.add(strokeAnimation, forKey: "strokeAnimation")
             
-            // TODO: Percentage from radians
-            let startPercentage = Float(startAngleInDegrees) * 100 / 360
-            let endPercentage = Float(endAngleInDegrees) * 100 / 360
-            
-            _label.count(fromValue: startPercentage, to: endPercentage, withDuration: duration, animationType: .linear, counterType: .int)
+            _label.count(fromValue: Float(startPercentage), to: Float(endPercentage) - Float(startPercentage), withDuration: duration, animationType: .linear, counterType: .int)
         } else {
-            _label.text = "\(Int(endAngleInDegrees) * 100 / 360)%"
+            _label.text = "\(Int(endPercentage - startPercentage))%"
         }
     }
     
