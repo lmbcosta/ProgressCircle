@@ -41,13 +41,18 @@ public class ProgressCircleView: UIView {
     // Open Properties
     
     open var fontLabel: UIFont {
-        set { self._labelFont = newValue }
-        get { return _labelFont }
+        set {
+            _label.font = newValue
+        }
+        get { return _label.font }
     }
 
     open var frameLabel: CGRect {
-        set { _labelFrame = newValue }
-        get { return _labelFrame }
+        set {
+            _label.frame = newValue
+            _label.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+        }
+        get { return _label.frame }
     }
     
     @IBInspectable
@@ -92,7 +97,7 @@ public class ProgressCircleView: UIView {
     
     @IBInspectable
     open var textLabel: String? {
-        set { _label.text = newValue }
+        set { _label.text = newValue}
         get { return _label.text }
     }
 
@@ -119,7 +124,7 @@ public class ProgressCircleView: UIView {
 extension ProgressCircleView {
     
     fileprivate func setupView() {
-        self._radius = frame.width/2 - CGFloat(32)
+        self._radius = frame.width/2
         self._label.textAlignment = .center
         self._label.textColor = strokeColor
         self._label.frame = CGRect(x: 0, y: 0, width: 200, height: 100)
@@ -134,9 +139,10 @@ extension ProgressCircleView {
 extension ProgressCircleView {
     func animate(duration: CFTimeInterval, animated: Bool, animationType: AnimationTypeLabel?, counter: CounterTypeLabel?) {
         
+        let centerView = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         
         // BackEndPath
-        let backgroundPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        let backgroundPath = UIBezierPath(arcCenter: centerView, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         let backgroundLayer = CAShapeLayer()
         backgroundLayer.path = backgroundPath.cgPath
         backgroundLayer.strokeColor = strokeBackgroundColor.cgColor
@@ -149,7 +155,7 @@ extension ProgressCircleView {
         let endAngleRadians = endPercentage * 2 * CGFloat.pi / 100 - (CGFloat.pi / 2)
         
         // Circular Path
-        let circularPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngleRadians, endAngle: endAngleRadians, clockwise: true)
+        let circularPath = UIBezierPath(arcCenter: centerView, radius: radius, startAngle: startAngleRadians, endAngle: endAngleRadians, clockwise: true)
         
         // Contour Layer
         let contourLayer = CAShapeLayer()
