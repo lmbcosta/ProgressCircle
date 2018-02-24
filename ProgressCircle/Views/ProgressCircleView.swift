@@ -22,7 +22,7 @@ public class ProgressCircleView: UIView {
     fileprivate var _strokeColor: UIColor = UIColor.green
     fileprivate var _backgroundStrokeColor: UIColor = UIColor.lightGray
     fileprivate var _strokeLineWidth: CGFloat = 20
-    fileprivate var _labelFrame: CGRect = CGRect(x: 0, y: 0, width: 200, height: 100)
+    fileprivate var _labelSize: CGSize = CGSize(width: 200, height: 200)
     fileprivate var _labelFont: UIFont = UIFont.systemFont(ofSize: 80, weight: .medium)
     fileprivate var _animationTypeLabel: AnimationTypeLabel = .linear
     fileprivate var _counterTypeLabel: CounterTypeLabel = .int
@@ -39,21 +39,23 @@ public class ProgressCircleView: UIView {
     }
     
     // Open Properties
-    
-    open var fontLabel: UIFont {
+    open var labelFont: UIFont {
         set {
             _label.font = newValue
         }
         get { return _label.font }
     }
-
-    open var frameLabel: CGRect {
+    
+    open var labelSize: CGSize {
         set {
-            _label.frame = newValue
+            let frame = CGRect(x: 0, y: 0, width: labelSize.width, height: labelSize.height)
+            _label.frame = frame
             _label.center = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+            self.layoutIfNeeded()
         }
-        get { return _label.frame }
+        get { return _label.frame.size }
     }
+    
     
     @IBInspectable
     open var startPercentage: CGFloat {
@@ -90,25 +92,25 @@ public class ProgressCircleView: UIView {
     }
     
     @IBInspectable
-    open var strokeBackgroundColor: UIColor {
+    open var backgroundStrokeColor: UIColor {
         set { _backgroundStrokeColor = newValue }
         get { return _backgroundStrokeColor }
     }
     
     @IBInspectable
-    open var textLabel: String? {
+    open var labelText: String? {
         set { _label.text = newValue}
         get { return _label.text }
     }
 
     @IBInspectable
-    open var textAlignmentLabel: NSTextAlignment {
+    open var labelTextAlignment: NSTextAlignment {
         set { _label.textAlignment = newValue  }
         get { return _label.textAlignment }
     }
 
     @IBInspectable
-    open var textColorLabel: UIColor {
+    open var labelTextColor: UIColor {
         set { _label.textColor = newValue }
         get { return _label.textColor }
     }
@@ -145,7 +147,7 @@ extension ProgressCircleView {
         let backgroundPath = UIBezierPath(arcCenter: centerView, radius: radius, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         let backgroundLayer = CAShapeLayer()
         backgroundLayer.path = backgroundPath.cgPath
-        backgroundLayer.strokeColor = strokeBackgroundColor.cgColor
+        backgroundLayer.strokeColor = backgroundStrokeColor.cgColor
         backgroundLayer.lineWidth = lineWidthStroke
         backgroundLayer.fillColor = UIColor.clear.cgColor
         self.layer.addSublayer(backgroundLayer)

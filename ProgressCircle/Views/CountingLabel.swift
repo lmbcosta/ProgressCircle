@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+/// Credits to: Brian Advent https://www.youtube.com/channel/UCysEngjfeIYapEER9K8aikw
+
 class CountingLabel: UILabel {
     
     let counterVelocity: Float = 3.0

@@ -17,19 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ALa-qB-imi" customClass="ProgressCircleView" customModule="ProgressCircle" customModuleProvider="target">
-                                <rect key="frame" x="112.5" y="60" width="150" height="150"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="CG1-EI-8wg"/>
-                                    <constraint firstAttribute="width" constant="150" id="M2t-Wg-Tls"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T4b-3b-rkZ" customClass="ProgressCircleView" customModule="ProgressCircle" customModuleProvider="target">
-                                <rect key="frame" x="112" y="250" width="150" height="150"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="112" y="330" width="150" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="nVb-H4-mBR"/>
-                                    <constraint firstAttribute="width" constant="150" id="wM4-wc-UEs"/>
+                                    <constraint firstAttribute="width" constant="150" id="EQG-Zg-AZk"/>
+                                    <constraint firstAttribute="height" constant="150" id="nEg-Zt-UdY"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7I-wj-AUG">
@@ -40,30 +32,36 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaS-aB-xW3" customClass="ProgressCircleView" customModule="ProgressCircle" customModuleProvider="target">
-                                <rect key="frame" x="167" y="440" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="167" y="520" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="2yf-qd-bgj"/>
-                                    <constraint firstAttribute="height" constant="40" id="ibt-Hz-oDb"/>
+                                    <constraint firstAttribute="height" constant="40" id="Iew-5i-l0i"/>
+                                    <constraint firstAttribute="width" constant="40" id="xT5-YZ-hIU"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ALa-qB-imi" customClass="ProgressCircleView" customModule="ProgressCircle" customModuleProvider="target">
+                                <rect key="frame" x="112" y="110" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="5bj-Li-42c"/>
+                                    <constraint firstAttribute="height" constant="150" id="nbN-R3-T68"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ALa-qB-imi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="33Y-j7-pMD"/>
-                            <constraint firstItem="ALa-qB-imi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="Ext-vl-ckF"/>
-                            <constraint firstItem="T4b-3b-rkZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HqT-zF-QEA"/>
-                            <constraint firstItem="T4b-3b-rkZ" firstAttribute="top" secondItem="ALa-qB-imi" secondAttribute="bottom" constant="40" id="eGr-MW-JGs"/>
-                            <constraint firstItem="HaS-aB-xW3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kfu-2v-WTa"/>
+                            <constraint firstItem="HaS-aB-xW3" firstAttribute="top" secondItem="T4b-3b-rkZ" secondAttribute="bottom" constant="40" id="N5P-yN-ALL"/>
+                            <constraint firstItem="ALa-qB-imi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Rrt-iz-yfz"/>
+                            <constraint firstItem="HaS-aB-xW3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Rte-rV-deu"/>
+                            <constraint firstItem="ALa-qB-imi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="90" id="c1e-0d-ePn"/>
+                            <constraint firstItem="T4b-3b-rkZ" firstAttribute="top" secondItem="ALa-qB-imi" secondAttribute="bottom" constant="70" id="m3j-Ic-tPI"/>
+                            <constraint firstItem="T4b-3b-rkZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="o4C-2z-Pkt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="i7I-wj-AUG" secondAttribute="bottom" constant="32" id="oOL-Cc-1GZ"/>
                             <constraint firstItem="i7I-wj-AUG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qBD-gy-rbU"/>
-                            <constraint firstItem="HaS-aB-xW3" firstAttribute="top" secondItem="T4b-3b-rkZ" secondAttribute="bottom" constant="40" id="xSP-RO-6CC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="bottomCircle" destination="HaS-aB-xW3" id="f2x-xT-jFi"/>
-                        <outlet property="middleCircle" destination="T4b-3b-rkZ" id="l5p-RZ-Kgp"/>
+                        <outlet property="bottomCircle" destination="HaS-aB-xW3" id="L9E-UN-QIn"/>
+                        <outlet property="centerCircle" destination="T4b-3b-rkZ" id="U0i-U7-PG0"/>
                         <outlet property="topCircle" destination="ALa-qB-imi" id="Hr3-bi-ahe"/>
                     </connections>
                 </viewController>
